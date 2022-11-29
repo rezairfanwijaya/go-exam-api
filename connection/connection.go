@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/rezairfanwijaya/go-exam-api.git/helper"
+	"github.com/rezairfanwijaya/go-exam-api.git/user"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -29,5 +30,6 @@ func DB(path string) (*gorm.DB, error) {
 		return db, err
 	}
 
+	db.AutoMigrate(&user.User{})
 	return db, nil
 }
