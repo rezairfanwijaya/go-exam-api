@@ -21,11 +21,11 @@ Go to the project directory
 Setup env
 
 ```bash
-  "DATABASE_HOST"       = "your localhost port"
-  "DATABASE_NAME"       = "your database name"
-  "DATABASE_PORT"       = "your database port"
-  "DATABASE_USERNAME"   = "your database username"
-  "DATABASE_PASSWORD"   = "your database password
+  DATABASE_HOST       = "your localhost port"
+  DATABASE_NAME       = "your database name"
+  DATABASE_PORT       = "your database port"
+  DATABASE_USERNAME   = "your database username"
+  DATABASE_PASSWORD   = "your database password
 ```
 #### If the database does not have a password, leave it blank like this ```DATABASE_PASSWORD = ""```
 
