@@ -1,7 +1,16 @@
 package main
 
-import "log"
+import (
+	"log"
+
+	"github.com/rezairfanwijaya/go-exam-api.git/connection"
+)
 
 func main() {
-	log.Println("hello world")
+	DBConnecton, err := connection.DB(".env")
+	if err != nil {
+		log.Println(err)
+	}
+
+	log.Println(DBConnecton)
 }
