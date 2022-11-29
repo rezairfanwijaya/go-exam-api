@@ -35,6 +35,8 @@ Run migration table
   go run main.go
 ```
 result
+
+
 ![image](https://user-images.githubusercontent.com/87264553/204498813-ad29cd5c-c293-4e3a-b8b0-176ea0b8aa4f.png)
 
 
@@ -44,6 +46,8 @@ run migration up data user
   migrate -database "mysql://yourdatabaseusername:yourdatabasepassword@tcp(yourdatabasehost:yourdatabaseport)/yourdatabasename" -path db/migration up
 ```
 result
+
+
 ![image](https://user-images.githubusercontent.com/87264553/204498884-7580de99-776b-4748-b2c8-01d151c17ebc.png)
 
 
