@@ -25,7 +25,7 @@ Setup env
   DATABASE_NAME       = "your database name"
   DATABASE_PORT       = "your database port"
   DATABASE_USERNAME   = "your database username"
-  DATABASE_PASSWORD   = "your database password
+  DATABASE_PASSWORD   = "your database password"
 ```
 #### If the database does not have a password, leave it blank like this ```DATABASE_PASSWORD = ""```
 
