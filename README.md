@@ -41,3 +41,16 @@ run migration up data user
   migrate -database "mysql://yourdatabaseusername:yourdatabasepassword@tcp(yourdatabasehost:yourdatabaseport)/yourdatabasename" -path db/migration up
 ```
 
+
+## User Data
+
+| email | password     | role               |
+| :-------- | :------- | :------------------------- |
+| siswapertama@gmail.com | 12345678 | siswa |
+| siswakedua@gmail.com | 12345678 | siswa |
+| siswaketiga@gmail.com | 12345678 | siswa |
+| siswakeempat@gmail.com | 12345678 | siswa |
+| guru@gmail.com | 12345678 | guru |
+
+
+
