@@ -42,8 +42,13 @@ result
 
 #### after that 
 run migration up data user
+with password
 ```bash
   migrate -database "mysql://yourdatabaseusername:yourdatabasepassword@tcp(yourdatabasehost:yourdatabaseport)/yourdatabasename" -path db/migration up
+```
+without password
+```bash
+  migrate -database "mysql://yourdatabaseusername@tcp(yourdatabasehost:yourdatabaseport)/yourdatabasename" -path db/migration up
 ```
 result
 
