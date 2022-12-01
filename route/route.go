@@ -29,5 +29,5 @@ func NewRoute(e *echo.Echo, db *gorm.DB) {
 	// user handler
 	handlerUser := handler.NewHandler(serviceUser)
 
-	e.POST("/", handlerUser.Login)
+	e.POST("/login", handlerUser.Login)
 }

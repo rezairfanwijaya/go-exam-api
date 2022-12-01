@@ -4,7 +4,7 @@ import "errors"
 
 // interface
 type IUserService interface {
-	GetUserByEmail(email string) (User, error)
+	Login(input UserInputLogin) (User, error)
 }
 
 type UserService struct {
@@ -17,11 +17,20 @@ func NewService(userRepo IUserRepository) *UserService {
 }
 
 // function to call repo for find user by email
-func (s *UserService) GetUserByEmail(email string) (User, error) {
-	user, err := s.UserRepo.FindByEmail(email)
-	if err != nil {
-		return user, errors.New("user not found")
+func (s *UserService) Login(input UserInputLogin) (User, error) {
+	// cek apakah email sudah terdaftar
+	user, _ := s.UserRepo.FindByEmail(input.Email)
+
+	// jika tidak ada
+	if user.ID == 0 {
+		return user, errors.New("email tidak terdaftar")
 	}
 
+	// cek apakah password sama
+	if input.Password != user.Password {
+		return user, errors.New("password salah")
+	}
+
+	// sukses login
 	return user, nil
 }
