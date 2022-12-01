@@ -5,31 +5,19 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/rezairfanwijaya/go-exam-api.git/helper"
+	"github.com/rezairfanwijaya/go-exam-api.git/middleware"
 	"github.com/rezairfanwijaya/go-exam-api.git/user"
 )
 
 type UserHandler struct {
 	UserService user.IUserService
+	AuthService middleware.IAuthService
 }
 
 // func new handler
-func NewHandler(userService user.IUserService) *UserHandler {
-	return &UserHandler{userService}
+func NewHandler(UserService user.IUserService, AuthService middleware.IAuthService) *UserHandler {
+	return &UserHandler{UserService, AuthService}
 }
-
-// ShowAccount godoc
-//
-//	@Summary		Show an account
-//	@Description	get string by ID
-//	@Tags			accounts
-//	@Accept			json
-//	@Produce		json
-//	@Param			id	path		int	true	"Account ID"
-//	@Success		200	{object}	user.User
-//	@Failure		400	{object}	httputil.HTTPError
-//	@Failure		404	{object}	httputil.HTTPError
-//	@Failure		500	{object}	httputil.HTTPError
-//	@Router			/accounts/{id} [get]
 
 // func handle user login
 func (h *UserHandler) Login(c echo.Context) error {
@@ -42,7 +30,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 			"gagal binding",
 			"gagal melakukan binding",
 			http.StatusInternalServerError,
-			err,
+			err.Error(),
 		)
 
 		return c.JSON(http.StatusInternalServerError, response)
@@ -74,7 +62,20 @@ func (h *UserHandler) Login(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, response)
 	}
 
-	userFormatted := helper.UserFormating(user)
+	// generate jwt
+	tokenJwt, err := h.AuthService.GenerateJWT(user)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal membuat token",
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusInternalServerError, response)
+	}
+
+	userFormatted := helper.UserFormating(user, tokenJwt)
 	response := helper.ResponseAPI(
 		"sukses",
 		"sukses login",
