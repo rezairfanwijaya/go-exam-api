@@ -38,8 +38,11 @@ func NewRoute(e *echo.Echo, db *gorm.DB) {
 	// user handler
 	handlerUser := handler.NewHandler(serviceUser, serviceAuth)
 
+	// endpoint
 	e.POST("/login", handlerUser.Login)
-	e.GET("/home", handlerUser.Home, authMiddleware(serviceAuth, serviceUser))
+
+	v1 := e.Group("/v1")
+	v1.GET("/user/info", handlerUser.GetUserByTokenJWT, authMiddleware(serviceAuth, serviceUser))
 }
 
 func authMiddleware(authService middleware.IAuthService, userService user.IUserService) echo.MiddlewareFunc {
@@ -111,7 +114,7 @@ func authMiddleware(authService middleware.IAuthService, userService user.IUserS
 			}
 
 			c.Set("currentUser", user)
-			return nil
+			return next(c)
 		}
 	}
 }
