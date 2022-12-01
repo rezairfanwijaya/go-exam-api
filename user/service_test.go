@@ -1,7 +1,6 @@
 package user_test
 
 import (
-	"errors"
 	"testing"
 
 	"github.com/rezairfanwijaya/go-exam-api.git/user"
@@ -24,33 +23,58 @@ func TestNewService(t *testing.T) {
 	assert.NotNil(t, userService)
 }
 
-func TestGetUserByEmail(t *testing.T) {
+func TestLogin(t *testing.T) {
+	type inputUser struct {
+		Email    string
+		Password string
+	}
+
 	testCases := []struct {
 		Name        string
-		Email       string
+		input       inputUser
 		Expectation user.User
 		WantError   bool
 	}{
 		{
-			Name:  "success",
-			Email: "rezairfan@gmail.com",
+			Name: "success",
+			input: inputUser{
+				Email:    "siswapertama@gmail.com",
+				Password: "12345678",
+			},
 			Expectation: user.User{
 				ID:       1,
-				FullName: "reza irfan",
-				Email:    "rezairfan@gmail.com",
+				FullName: "reza",
+				Email:    "siswapertama@gmail.com",
 				Password: "12345678",
 				Role:     "siswa",
 			},
 			WantError: false,
 		}, {
-			Name:  "failed",
-			Email: "",
+			Name: "wrong email",
+			input: inputUser{
+				Email:    "root@gmail.com",
+				Password: "12345678",
+			},
 			Expectation: user.User{
 				ID:       0,
 				FullName: "",
 				Email:    "",
 				Password: "",
-				Role:     "",
+				Role:     "duh",
+			},
+			WantError: true,
+		}, {
+			Name: "wrong password",
+			input: inputUser{
+				Email:    "siswapertama@gmail.com",
+				Password: "12345670",
+			},
+			Expectation: user.User{
+				ID:       1,
+				FullName: "reza",
+				Email:    "siswapertama@gmail.com",
+				Password: "12345678",
+				Role:     "siswa",
 			},
 			WantError: true,
 		},
@@ -62,16 +86,15 @@ func TestGetUserByEmail(t *testing.T) {
 			userService := user.UserService{mock}
 
 			if testCase.WantError {
-				mock.Mock.On("FindByEmail", testCase.Email).Return(testCase.Expectation, errors.New("user not found"))
-				actual, _ := userService.GetUserByEmail(testCase.Email)
+				mock.Mock.On("FindByEmail", testCase.input.Email).Return(testCase.Expectation, nil)
+				actual, _ := userService.Login(user.UserInputLogin(testCase.input))
 				assert.Equal(t, testCase.Expectation, actual)
 			} else {
-				mock.Mock.On("FindByEmail", testCase.Email).Return(testCase.Expectation, nil)
-				actual, err := userService.GetUserByEmail(testCase.Email)
+				mock.Mock.On("FindByEmail", testCase.input.Email).Return(testCase.Expectation, nil)
+				actual, err := userService.Login(user.UserInputLogin(testCase.input))
 				assert.Nil(t, err)
 				assert.NotNil(t, actual)
 			}
-
 		})
 	}
 }
