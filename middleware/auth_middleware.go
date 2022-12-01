@@ -16,25 +16,16 @@ type IAuthService interface {
 
 type tokenJWT struct{}
 
-type Claims struct {
-	Email string `json:"email"`
-	Role  string `json:"role"`
-	jwt.StandardClaims
-}
-
 func NewServiceAuth() *tokenJWT {
 	return &tokenJWT{}
 }
 
 func (t *tokenJWT) GenerateJWT(user user.User) (string, error) {
 	// set payload jwt
-	claims := &Claims{
-		Email: user.Email,
-		Role:  user.Role,
-		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(5 * time.Minute).Unix(),
-		},
-	}
+	claims := jwt.MapClaims{}
+	claims["userID"] = user.ID
+	claims["email"] = user.Email
+	claims["expired"] = time.Now().Add(5 * time.Minute).Unix()
 
 	// apply algorithm
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -64,7 +55,7 @@ func (t *tokenJWT) ValidasiJWT(jwtToken string) (*jwt.Token, error) {
 		}
 
 		// get secret key
-		env, err := helper.GetEnv("../.env")
+		env, err := helper.GetEnv(".env")
 		if err != nil {
 			return nil, err
 		}

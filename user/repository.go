@@ -9,6 +9,7 @@ import (
 // interface
 type IUserRepository interface {
 	FindByEmail(email string) (User, error)
+	FindByID(id int) (User, error)
 }
 
 type userRepository struct {
@@ -26,6 +27,17 @@ func (r *userRepository) FindByEmail(email string) (User, error) {
 
 	if err := r.db.Where("email = ?", email).Find(&user).Error; err != nil {
 		return user, errors.New("user not found")
+	}
+
+	return user, nil
+}
+
+// function untuk mencari user by id
+func (r *userRepository) FindByID(id int) (User, error) {
+	var user User
+
+	if err := r.db.Where("id = ?", id).Find(&user).Error; err != nil {
+		return user, err
 	}
 
 	return user, nil

@@ -85,3 +85,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response)
 }
+
+func (h *UserHandler) Home(c echo.Context) error {
+	return c.JSON(http.StatusOK, "punya akses")
+}
