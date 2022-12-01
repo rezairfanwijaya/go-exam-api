@@ -26,6 +26,7 @@ Setup env
   DATABASE_PORT       = "your database port"
   DATABASE_USERNAME   = "your database username"
   DATABASE_PASSWORD   = "your database password"
+  KEY                 = "your secret key for JWT"
 ```
 #### If the database does not have a password, leave it blank like this ```DATABASE_PASSWORD = ""```
 
