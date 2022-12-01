@@ -25,6 +25,7 @@ type userFormating struct {
 	Name  string `json:"name"`
 	Email string `json:"email"`
 	Role  string `json:"role"`
+	Token string `json:"token"`
 }
 
 // function get env value
@@ -64,11 +65,12 @@ func ResponseAPI(status, message string, code int, data interface{}) responseAPI
 }
 
 // user fortmating
-func UserFormating(user user.User) userFormating {
+func UserFormating(user user.User, tokenJWT string) userFormating {
 	return userFormating{
 		ID:    user.ID,
 		Name:  user.FullName,
 		Email: user.Email,
 		Role:  user.Role,
+		Token: tokenJWT,
 	}
 }
