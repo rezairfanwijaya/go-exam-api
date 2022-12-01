@@ -21,7 +21,7 @@ Go to the project directory
 Setup env
 
 ```bash
-  DATABASE_HOST       = "your localhost port"
+  DATABASE_HOST       = "your localhost host"
   DATABASE_NAME       = "your database name"
   DATABASE_PORT       = "your database port"
   DATABASE_USERNAME   = "your database username"
