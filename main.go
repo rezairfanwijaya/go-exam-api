@@ -6,9 +6,9 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/rezairfanwijaya/go-exam-api.git/connection"
 	_ "github.com/rezairfanwijaya/go-exam-api.git/docs"
-	m "github.com/rezairfanwijaya/go-exam-api.git/middleware"
 	"github.com/rezairfanwijaya/go-exam-api.git/route"
 	echoSwagger "github.com/swaggo/echo-swagger"
+	m "github.com/rezairfanwijaya/go-exam-api.git/middleware"
 )
 
 //	@title			Swagger GO-Exam API Documentation
