@@ -75,7 +75,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, response)
 	}
 
-	userFormatted := helper.UserFormating(user, tokenJwt)
+	userFormatted := helper.UserFormatingLogin(user, tokenJwt)
 	response := helper.ResponseAPI(
 		"sukses",
 		"sukses login",
@@ -86,6 +86,31 @@ func (h *UserHandler) Login(c echo.Context) error {
 	return c.JSON(http.StatusOK, response)
 }
 
-func (h *UserHandler) Home(c echo.Context) error {
-	return c.JSON(http.StatusOK, "punya akses")
+func (h *UserHandler) GetUserByTokenJWT(c echo.Context) error {
+	// ambil user yang sedang login
+	currentUser := c.Get("currentUser").(user.User)
+
+	// panggil service untuk mencari user
+	userLoggedin, err := h.UserService.GetUserByID(currentUser.ID)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal mengambil data user",
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusInternalServerError, response)
+	}
+
+	// format user
+	userFormating := helper.UserFormatingByJWT(userLoggedin)
+	response := helper.ResponseAPI(
+		"sukses",
+		"sukses mengambil data user",
+		http.StatusOK,
+		userFormating,
+	)
+
+	return c.JSON(http.StatusOK, response)
 }
