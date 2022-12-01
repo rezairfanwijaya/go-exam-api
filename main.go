@@ -6,6 +6,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/rezairfanwijaya/go-exam-api.git/connection"
 	_ "github.com/rezairfanwijaya/go-exam-api.git/docs"
+	m "github.com/rezairfanwijaya/go-exam-api.git/middleware"
 	"github.com/rezairfanwijaya/go-exam-api.git/route"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
@@ -23,6 +24,9 @@ func main() {
 
 	// define echo
 	e := echo.New()
+
+	// log middleware
+	m.LogMiddleware(e)
 
 	// define route
 	route.NewRoute(e, dbConnection)
