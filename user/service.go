@@ -3,22 +3,22 @@ package user
 import "errors"
 
 // interface
-type UserService interface {
+type IUserService interface {
 	GetUserByEmail(email string) (User, error)
 }
 
-type userService struct {
-	userRepo IUserRepository
+type UserService struct {
+	UserRepo IUserRepository
 }
 
 // func new service
-func NewService(userRepo IUserRepository) *userService {
-	return &userService{userRepo}
+func NewService(userRepo IUserRepository) *UserService {
+	return &UserService{userRepo}
 }
 
 // function to call repo for find user by email
-func (s *userService) GetUserByEmail(email string) (User, error) {
-	user, err := s.userRepo.FindByEmail(email)
+func (s *UserService) GetUserByEmail(email string) (User, error) {
+	user, err := s.UserRepo.FindByEmail(email)
 	if err != nil {
 		return user, errors.New("user not found")
 	}
