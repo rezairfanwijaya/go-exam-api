@@ -20,12 +20,17 @@ type meta struct {
 	Message string `json:"message"`
 }
 
-type userFormating struct {
+type userFormatingLogin struct {
 	ID    int    `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`
 	Role  string `json:"role"`
 	Token string `json:"token"`
+}
+
+type userFormatingBytoken struct {
+	ID    int    `json:"id"`
+	Email string `json:"email"`
 }
 
 // function get env value
@@ -64,13 +69,21 @@ func ResponseAPI(status, message string, code int, data interface{}) responseAPI
 	}
 }
 
-// user fortmating
-func UserFormating(user user.User, tokenJWT string) userFormating {
-	return userFormating{
+// user formating when success login
+func UserFormatingLogin(user user.User, tokenJWT string) userFormatingLogin {
+	return userFormatingLogin{
 		ID:    user.ID,
 		Name:  user.FullName,
 		Email: user.Email,
 		Role:  user.Role,
 		Token: tokenJWT,
+	}
+}
+
+// user formating by jwt
+func UserFormatingByJWT(user user.User) userFormatingBytoken {
+	return userFormatingBytoken{
+		ID:    user.ID,
+		Email: user.Email,
 	}
 }
