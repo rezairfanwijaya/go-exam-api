@@ -4,7 +4,11 @@ go 1.19
 
 require gorm.io/driver/mysql v1.4.4
 
-require github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
+require (
+	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
+	github.com/xrash/smetrics v0.0.0-20201216005158-039620a65673 // indirect
+	golang.org/x/time v0.0.0-20201208040808-7e3f01d25324 // indirect
+)
 
 require (
 	github.com/KyleBanks/depth v1.2.1 // indirect
