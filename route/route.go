@@ -10,6 +10,7 @@ import (
 	"github.com/rezairfanwijaya/go-exam-api.git/handler"
 	"github.com/rezairfanwijaya/go-exam-api.git/helper"
 	"github.com/rezairfanwijaya/go-exam-api.git/middleware"
+	"github.com/rezairfanwijaya/go-exam-api.git/question"
 	"github.com/rezairfanwijaya/go-exam-api.git/user"
 	"gorm.io/gorm"
 )
@@ -36,15 +37,23 @@ func NewRoute(e *echo.Echo, db *gorm.DB) {
 	// user service
 	serviceUser := user.NewService(repoUser)
 	// user handler
-	handlerUser := handler.NewHandler(serviceUser, serviceAuth)
+	handlerUser := handler.NewHandlerUser(serviceUser, serviceAuth)
+
+	// question repo
+	repoQuestion := question.NewRepository(db)
+	// question service
+	serviceQuestion := question.NewService(repoQuestion)
+	// question handler
+	handlerQuestion := handler.NewHandlerQuestion(serviceQuestion, serviceAuth, serviceUser)
 
 	// endpoint
 	e.POST("/login", handlerUser.Login)
 
 	v1 := e.Group("/v1")
 	v1.GET("/user/info", handlerUser.GetUserByTokenJWT, authMiddleware(serviceAuth, serviceUser))
+	v1.GET("/question/:id", handlerQuestion.GetQuestionById, authMiddleware(serviceAuth, serviceUser))
+	v1.POST("/question", handlerQuestion.CreateQuestion, authMiddleware(serviceAuth, serviceUser))
 }
-
 func authMiddleware(authService middleware.IAuthService, userService user.IUserService) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
