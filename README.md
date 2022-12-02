@@ -68,4 +68,87 @@ result
 | guru@gmail.com | 12345678 | guru |
 
 
+## Endpoint
+
+#### Login
+
+```http
+  POST localhost/login
+```
+
+| Body | Type     | Description                | Required | 
+| :-------- | :------- | :------------------------- | :------------------------- |
+| `email` | `string` | email user | True |
+| `password` | `string` | password user with **len 8** | **Required** |
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses login"
+    },
+    "data": {
+        "id": 2,
+        "name": "siswa kedua",
+        "email": "siswakedua@gmail.com",
+        "role": "siswa",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ"
+    }
+}
+```
+Response Failed
+```bash
+{
+    "meta": {
+        "status": "gagal",
+        "code": 400,
+        "message": "gagal melakukan login"
+    },
+    "data": "email tidak terdaftar"
+}
+```
+
+#### Get User By JWT Token
+
+```http
+  GET localhost/v1/user/info
+```
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses mengambil data user"
+    },
+    "data": {
+        "id": 2,
+        "email": "siswakedua@gmail.com",
+        "role": "siswa"
+    }
+}
+```
+Response Failed
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "gagal melakukan authorization"
+    },
+    "data": "signature is invalid"
+}
+```
+
 
