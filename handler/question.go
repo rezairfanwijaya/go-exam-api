@@ -32,23 +32,10 @@ func (h *QuestionHandler) CreateQuestion(c echo.Context) error {
 	// cek akun
 	// yang boleh membuat soal hanya guru
 	// ambil user yang sedang login
-	currentUser := c.Get("currentUser").(user.User)
-
-	// panggil service untuk mencari user
-	userLoggedin, err := h.userService.GetUserByID(currentUser.ID)
-	if err != nil {
-		response := helper.ResponseAPI(
-			"gagal",
-			"gagal mengambil data user",
-			http.StatusInternalServerError,
-			err.Error(),
-		)
-
-		return c.JSON(http.StatusInternalServerError, response)
-	}
+	role := helper.AuthRole(c)
 
 	// cek apakah gutu atau bukan
-	if userLoggedin.Role != GURU {
+	if role != GURU {
 		response := helper.ResponseAPI(
 			"Unauthorized",
 			"error",
@@ -152,4 +139,86 @@ func (h *QuestionHandler) GetQuestionById(c echo.Context) error {
 	)
 
 	return c.JSON(http.StatusInternalServerError, response)
+}
+
+func (h *QuestionHandler) UpdateQuestion(c echo.Context) error {
+	// cek role, harus guru
+	role := helper.AuthRole(c)
+
+	// cek apakah gutu atau bukan
+	if role != GURU {
+		response := helper.ResponseAPI(
+			"Unauthorized",
+			"error",
+			http.StatusUnauthorized,
+			"akses ditolak",
+		)
+
+		return c.JSON(http.StatusUnauthorized, response)
+	}
+
+	// ambil id dari param uri
+	param := c.Param("id")
+
+	// konversi ke integer
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal melakukan konversi id",
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusInternalServerError, response)
+	}
+
+	var input question.QuestionCreateInput
+
+	// binding input for validate
+	if err := c.Bind(&input); err != nil {
+		response := helper.ResponseAPI(
+			"gagal binding",
+			"gagal melakukan binding",
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusInternalServerError, response)
+	}
+
+	// validation input user
+	if err := c.Validate(&input); err != nil {
+		myErr := helper.FormatErrorValidate(err)
+		response := helper.ResponseAPI(
+			"gagal validasi",
+			"gagal melakukan validasi",
+			http.StatusBadRequest,
+			myErr,
+		)
+
+		return c.JSON(http.StatusBadRequest, response)
+	}
+
+	// panggil service
+	questionUpdated, err := h.serviceQuestion.UpdateByID(input, id)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal mengupdate question",
+			http.StatusBadRequest,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusBadRequest, response)
+	}
+
+	response := helper.ResponseAPI(
+		"sukses",
+		"sukses mengupdate question",
+		http.StatusOK,
+		helper.QuestionFormating(questionUpdated),
+	)
+
+	return c.JSON(http.StatusOK, response)
 }
