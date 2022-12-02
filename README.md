@@ -314,7 +314,7 @@ Response Failed
 }
 ```
 
-Response Unauthorized (only teacher can create question)
+Response Unauthorized (only teacher can update question)
 ```bash
 {
     "meta": {
@@ -368,7 +368,7 @@ Response Failed
 }
 ```
 
-Response Unauthorized (only teacher can create question)
+Response Unauthorized (only teacher can delete question)
 ```bash
 {
     "meta": {
