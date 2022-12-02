@@ -10,6 +10,7 @@ type IQuestionService interface {
 	Save(input QuestionCreateInput) (Question, error)
 	UpdateByID(input QuestionCreateInput, id int) (Question, error)
 	GetByID(id int) (Question, error)
+	DeleteByID(id int) error
 }
 
 type QuestionService struct {
@@ -75,4 +76,23 @@ func (s *QuestionService) UpdateByID(input QuestionCreateInput, id int) (Questio
 	questionUpdated, _ := s.RepoQuestion.Update(question)
 
 	return questionUpdated, nil
+}
+
+func (s *QuestionService) DeleteByID(id int) error {
+	// id harus lebih dari sama dengan 1
+	if id <= 0 {
+		return errors.New("id harus lebih dari sama dengan 1")
+	}
+
+	// cek apakah ada soal dengan id tersebut
+	question, _ := s.RepoQuestion.FindByID(id)
+
+	if question.ID == 0 {
+		errMsg := fmt.Sprintf("question dengan id %v tidak ditemukan", id)
+		return errors.New(errMsg)
+	}
+	// panggil repo
+	s.RepoQuestion.DeleteByID(id)
+
+	return nil
 }
