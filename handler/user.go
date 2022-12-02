@@ -15,7 +15,7 @@ type UserHandler struct {
 }
 
 // func new handler
-func NewHandler(UserService user.IUserService, AuthService middleware.IAuthService) *UserHandler {
+func NewHandlerUser(UserService user.IUserService, AuthService middleware.IAuthService) *UserHandler {
 	return &UserHandler{UserService, AuthService}
 }
 
