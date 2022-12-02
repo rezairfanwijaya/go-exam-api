@@ -54,6 +54,7 @@ func NewRoute(e *echo.Echo, db *gorm.DB) {
 	v1.GET("/question/:id", handlerQuestion.GetQuestionById, authMiddleware(serviceAuth, serviceUser))
 	v1.POST("/question", handlerQuestion.CreateQuestion, authMiddleware(serviceAuth, serviceUser))
 	v1.PUT("/question/:id", handlerQuestion.UpdateQuestion, authMiddleware(serviceAuth, serviceUser))
+	v1.DELETE("/question/:id", handlerQuestion.DeleteQuestion, authMiddleware(serviceAuth, serviceUser))
 }
 func authMiddleware(authService middleware.IAuthService, userService user.IUserService) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
