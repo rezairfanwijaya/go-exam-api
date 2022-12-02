@@ -327,3 +327,56 @@ Response Unauthorized (only teacher can create question)
 ```
 ```only can update one question in one request```
 
+#### Delete Question
+
+```http
+  DELETE localhost/v1/question/:id
+```
+
+| Param | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `id`      | `int` | Question ID | **Required**
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses menghapus soal"
+    },
+    "data": "soal berhasil dihapus"
+}
+```
+Response Failed
+```bash
+{
+    "meta": {
+        "status": "gagal",
+        "code": 500,
+        "message": "gagal menghapus question"
+    },
+    "data": "question dengan id 99 tidak ditemukan"
+}
+```
+
+Response Unauthorized (only teacher can create question)
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "akses ditolak"
+}
+```
+```only can delete one question in one request```
