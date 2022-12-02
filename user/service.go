@@ -5,6 +5,7 @@ import "errors"
 // interface
 type IUserService interface {
 	GetUserByID(id int) (User, error)
+	GetUserByEmail(email string) (User, error)
 	Login(input UserInputLogin) (User, error)
 }
 
@@ -39,6 +40,17 @@ func (s *UserService) Login(input UserInputLogin) (User, error) {
 // get user by id
 func (s *UserService) GetUserByID(id int) (User, error) {
 	user, _ := s.UserRepo.FindByID(id)
+
+	if user.ID == 0 {
+		return user, errors.New("user tidak ditemukan")
+	}
+
+	return user, nil
+}
+
+// get user by email
+func (s *UserService) GetUserByEmail(email string) (User, error) {
+	user, _ := s.UserRepo.FindByEmail(email)
 
 	if user.ID == 0 {
 		return user, errors.New("user tidak ditemukan")

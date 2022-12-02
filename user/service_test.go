@@ -154,3 +154,53 @@ func TestGetUserByID(t *testing.T) {
 		})
 	}
 }
+
+func TestGetUserByEmail(t *testing.T) {
+	testCases := []struct {
+		Name        string
+		Email       string
+		Expectation user.User
+		WantError   bool
+	}{
+		{
+			Name:  "success",
+			Email: "siswakedua@gmail.com",
+			Expectation: user.User{
+				ID:       2,
+				FullName: "siswa kedua",
+				Email:    "siswakedua@gmail.com",
+				Password: "12345678",
+			},
+			WantError: false,
+		}, {
+			Name:  "email not found",
+			Email: "vera@gmail.com",
+			Expectation: user.User{
+				ID:       0,
+				FullName: "",
+				Email:    "",
+				Password: "",
+				Role:     "",
+			},
+			WantError: true,
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.Name, func(t *testing.T) {
+			mock := new(MockIUserRepository)
+			serviceUser := user.UserService{UserRepo: mock}
+
+			if testCase.WantError {
+				mock.Mock.On("FindByEmail", testCase.Email).Return(testCase.Expectation, errors.New("user tidak ditemukan"))
+				actual, _ := serviceUser.GetUserByEmail(testCase.Email)
+				assert.Equal(t, testCase.Expectation, actual)
+			} else {
+				mock.Mock.On("FindByEmail", testCase.Email).Return(testCase.Expectation, nil)
+				actual, err := serviceUser.GetUserByEmail(testCase.Email)
+				assert.Nil(t, err)
+				assert.NotNil(t, actual)
+			}
+		})
+	}
+}
