@@ -7,6 +7,7 @@ type IQuestionRepository interface {
 	Save(question Question) (Question, error)
 	FindByID(id int) (Question, error)
 	Update(question Question) (Question, error)
+	DeleteByID(id int) error
 }
 
 type QuestionRepository struct {
@@ -42,4 +43,14 @@ func (r *QuestionRepository) Update(question Question) (Question, error) {
 	}
 
 	return question, nil
+}
+
+func (r *QuestionRepository) DeleteByID(id int) error {
+	var question Question
+
+	if err := r.db.Where("id = ?", id).Delete(&question).Error; err != nil {
+		return err
+	}
+
+	return nil
 }
