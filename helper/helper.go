@@ -37,7 +37,6 @@ type userFormatingBytoken struct {
 
 type questionFormat struct {
 	ID       int    `json:"id"`
-	Number   int    `json:"number"`
 	Question string `json:"question"`
 }
 
@@ -101,7 +100,6 @@ func UserFormatingByJWT(user user.User) userFormatingBytoken {
 func QuestionFormating(question question.Question) questionFormat {
 	return questionFormat{
 		ID:       question.ID,
-		Number:   question.NumberQuestion,
 		Question: question.Question,
 	}
 }

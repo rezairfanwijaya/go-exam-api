@@ -40,8 +40,7 @@ func (s *QuestionService) GetByID(id int) (Question, error) {
 func (s *QuestionService) Save(input QuestionCreateInput) (Question, error) {
 	// konversi struct
 	question := Question{
-		NumberQuestion: input.Number,
-		Question:       input.Question,
+		Question: input.Question,
 	}
 
 	// panggil repo
