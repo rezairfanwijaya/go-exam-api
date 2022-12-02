@@ -30,6 +30,11 @@ func (m *MockIQuestionRepository) Update(question q.Question) (q.Question, error
 	return args.Get(0).(q.Question), args.Error(1)
 }
 
+func (m *MockIQuestionRepository) DeleteByID(id int) error {
+	args := m.Called(id)
+	return args.Error(0)
+}
+
 func TestNewService(t *testing.T) {
 	mock := new(MockIQuestionRepository)
 	service := q.NewService(mock)
@@ -222,6 +227,66 @@ func TestUpdateByID(t *testing.T) {
 				actual, err := questionService.UpdateByID(testCase.Input, testCase.ID)
 				assert.Equal(t, testCase.Expectation, actual)
 				assert.Nil(t, err)
+			}
+		})
+	}
+}
+
+func TestDeleteByID(t *testing.T) {
+	testCases := []struct {
+		Name        string
+		ID          int
+		Expectation interface{}
+		ById        q.Question
+		WantError   bool
+	}{
+		{
+			Name:        "success",
+			ID:          3,
+			Expectation: nil,
+			ById: q.Question{
+				ID:       3,
+				Question: "berpakah 20 X 9 ? ",
+			},
+			WantError: false,
+		}, {
+			Name:        "id is smaller than 1",
+			ID:          0,
+			Expectation: nil,
+			ById: q.Question{
+				ID:       0,
+				Question: "",
+			},
+			WantError: true,
+		}, {
+			Name:        "failed",
+			ID:          990,
+			Expectation: nil,
+			ById: q.Question{
+				ID:       0,
+				Question: "",
+			},
+			WantError: true,
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.Name, func(t *testing.T) {
+			mock := new(MockIQuestionRepository)
+			questionService := q.QuestionService{RepoQuestion: mock}
+			if testCase.WantError {
+				errMsg := fmt.Sprintf("question dengan id %v tidak ditemukan", testCase.ID)
+				mock.On("DeleteByID", testCase.ID).Return(testCase.Expectation, errors.New(errMsg))
+				mock.On("FindByID", testCase.ID).Return(testCase.ById, errors.New(errMsg))
+
+				actual := questionService.DeleteByID(testCase.ID)
+				assert.NotNil(t, actual)
+			} else {
+				mock.On("DeleteByID", testCase.ID).Return(testCase.Expectation, nil)
+				mock.On("FindByID", testCase.ID).Return(testCase.ById, nil)
+
+				actual := questionService.DeleteByID(testCase.ID)
+				assert.Nil(t, actual)
 			}
 		})
 	}
