@@ -267,4 +267,5 @@ Response Unauthorized (only teacher can create question)
     "data": "akses ditolak"
 }
 ```
+```only can create one question in one request```
 
