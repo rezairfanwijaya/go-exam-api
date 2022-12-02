@@ -216,7 +216,6 @@ Response Unauthorized
 
 | Payload | Type     | Description                       |  Required | 
 | :-------- | :------- | :-------------------------------- | :-------------------------------- |
-| `number`      | `integer` | Question of Question | **Required**
 | `question`      | `string` | Question | **Required**
 
 | Header | Type     | Description                       |  Required | 
@@ -237,7 +236,6 @@ Response Success
     },
     "data": {
         "id": 1,
-        "number": 1,
         "question": "Diamanakah ibu kota negara Brazil"
     }
 }
