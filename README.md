@@ -78,7 +78,7 @@ result
 
 | Body | Type     | Description                | Required | 
 | :-------- | :------- | :------------------------- | :------------------------- |
-| `email` | `string` | email user | True |
+| `email` | `string` | email user |  **Required** |
 | `password` | `string` | password user with **len 8** | **Required** |
 
 Response Success
@@ -151,4 +151,120 @@ Response Failed
 }
 ```
 
+#### Get Question By ID
+
+```http
+  GET localhost/v1/question/:id
+```
+
+| Param | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `id`      | `integer` | Question ID | **Required**
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses mengambil question"
+    },
+    "data": {
+        "id": 1,
+        "number": 1,
+        "question": "Diamanakah ibu kota negara Brazil"
+    }
+}
+```
+Response Failed
+```bash
+{
+    "meta": {
+        "status": "gagal",
+        "code": 400,
+        "message": "gagal mengambil question"
+    },
+    "data": "question dengan id 90 tidak ditemukan"
+}
+```
+
+Response Unauthorized
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "Masukan string Bearer sebelum token"
+}
+```
+
+#### Create New Question
+
+```http
+  POST localhost/v1/question
+```
+
+| Payload | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `number`      | `integer` | Question of Question | **Required**
+| `question`      | `string` | Question | **Required**
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses menyimpan question"
+    },
+    "data": {
+        "id": 1,
+        "number": 1,
+        "question": "Diamanakah ibu kota negara Brazil"
+    }
+}
+```
+Response Failed
+```bash
+{
+    "meta": {
+        "status": "gagal validasi",
+        "code": 400,
+        "message": "gagal melakukan validasi"
+    },
+    "data": [
+        "error on filed: Question, condition: required"
+    ]
+}
+```
+
+Response Unauthorized (only teacher can create question)
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "akses ditolak"
+}
+```
 
