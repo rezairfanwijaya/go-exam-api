@@ -222,3 +222,59 @@ func (h *QuestionHandler) UpdateQuestion(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response)
 }
+
+func (h *QuestionHandler) DeleteQuestion(c echo.Context) error {
+	// cek role, harus guru
+	role := helper.AuthRole(c)
+
+	// cek apakah gutu atau bukan
+	if role != GURU {
+		response := helper.ResponseAPI(
+			"Unauthorized",
+			"error",
+			http.StatusUnauthorized,
+			"akses ditolak",
+		)
+
+		return c.JSON(http.StatusUnauthorized, response)
+	}
+
+	// ambil id dari param uri
+	param := c.Param("id")
+
+	// konversi ke integer
+	id, err := strconv.Atoi(param)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal melakukan konversi id",
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusInternalServerError, response)
+	}
+
+	// panggil service
+	err = h.serviceQuestion.DeleteByID(id)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal menghapus question",
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusInternalServerError, response)
+	}
+
+	response := helper.ResponseAPI(
+		"sukses",
+		"sukses menghapus soal",
+		http.StatusOK,
+		"soal berhasil dihapus",
+	)
+
+	return c.JSON(http.StatusOK, response)
+
+}
