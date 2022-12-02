@@ -25,6 +25,11 @@ func (m *MockIQuestionRepository) FindByID(id int) (q.Question, error) {
 	return args.Get(0).(q.Question), args.Error(1)
 }
 
+func (m *MockIQuestionRepository) Update(question q.Question) (q.Question, error) {
+	args := m.Called(question)
+	return args.Get(0).(q.Question), args.Error(1)
+}
+
 func TestNewService(t *testing.T) {
 	mock := new(MockIQuestionRepository)
 	service := q.NewService(mock)
@@ -132,6 +137,92 @@ func TestGetByID(t *testing.T) {
 				assert.NotNil(t, actual)
 			}
 
+		})
+	}
+}
+
+func TestUpdateByID(t *testing.T) {
+	testCases := []struct {
+		Name        string
+		ID          int
+		Input       q.QuestionCreateInput
+		Question    q.Question
+		Expectation q.Question
+		ByID        q.Question
+		WantError   bool
+	}{
+		{
+			Name: "success",
+			ID:   2,
+			Input: q.QuestionCreateInput{
+				Question: "2 + 2 berapa ya ?",
+			},
+			Question: q.Question{
+				ID:       2,
+				Question: "2 + 2 berapa ya ?",
+			},
+			Expectation: q.Question{
+				ID:       2,
+				Question: "2 + 2 berapa ya ?",
+			},
+			WantError: false,
+		}, {
+			Name: "question not found",
+			ID:   90,
+			Input: q.QuestionCreateInput{
+				Question: "pertanyaan kedua adalah ? ",
+			},
+			Question: q.Question{
+				ID:       0,
+				Question: "",
+			},
+			Expectation: q.Question{
+				ID:       0,
+				Question: "",
+			},
+			WantError: true,
+		}, {
+			Name:        "id is smaller than 1",
+			ID:          0,
+			Input:       q.QuestionCreateInput{},
+			Question:    q.Question{},
+			Expectation: q.Question{},
+			ByID:        q.Question{},
+			WantError:   true,
+		}, {
+			Name:     "failed",
+			ID:       9999,
+			Input:    q.QuestionCreateInput{},
+			Question: q.Question{},
+			Expectation: q.Question{
+				ID:       0,
+				Question: "",
+			},
+			WantError: true,
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.Name, func(t *testing.T) {
+			mock := new(MockIQuestionRepository)
+			questionService := q.QuestionService{RepoQuestion: mock}
+
+			if testCase.WantError {
+				errMsg := fmt.Sprintf("question dengan id %v tidak ditemukan", testCase.ID)
+				mock.On("Update", testCase.Question).Return(testCase.Expectation, errors.New(errMsg))
+				mock.On("FindByID", testCase.ID).Return(testCase.Expectation, errors.New(errMsg))
+
+				actual, err := questionService.UpdateByID(testCase.Input, testCase.ID)
+				assert.Equal(t, testCase.Expectation, actual)
+				assert.NotNil(t, err)
+			} else {
+				mock.On("Update", testCase.Question).Return(testCase.Expectation, nil)
+				mock.On("FindByID", testCase.ID).Return(testCase.Expectation, nil)
+
+				actual, err := questionService.UpdateByID(testCase.Input, testCase.ID)
+				assert.Equal(t, testCase.Expectation, actual)
+				assert.Nil(t, err)
+			}
 		})
 	}
 }
