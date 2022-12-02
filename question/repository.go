@@ -6,6 +6,7 @@ import "gorm.io/gorm"
 type IQuestionRepository interface {
 	Save(question Question) (Question, error)
 	FindByID(id int) (Question, error)
+	Update(question Question) (Question, error)
 }
 
 type QuestionRepository struct {
@@ -29,6 +30,14 @@ func (r *QuestionRepository) FindByID(id int) (Question, error) {
 
 func (r *QuestionRepository) Save(question Question) (Question, error) {
 	if err := r.db.Create(&question).Error; err != nil {
+		return question, err
+	}
+
+	return question, nil
+}
+
+func (r *QuestionRepository) Update(question Question) (Question, error) {
+	if err := r.db.Save(&question).Error; err != nil {
 		return question, err
 	}
 
