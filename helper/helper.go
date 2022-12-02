@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/joho/godotenv"
+	"github.com/rezairfanwijaya/go-exam-api.git/question"
 	"github.com/rezairfanwijaya/go-exam-api.git/user"
 )
 
@@ -32,6 +33,12 @@ type userFormatingBytoken struct {
 	ID    int    `json:"id"`
 	Email string `json:"email"`
 	Role  string `json:"role"`
+}
+
+type questionFormat struct {
+	ID       int    `json:"id"`
+	Number   int    `json:"number"`
+	Question string `json:"question"`
 }
 
 // function get env value
@@ -87,5 +94,14 @@ func UserFormatingByJWT(user user.User) userFormatingBytoken {
 		ID:    user.ID,
 		Email: user.Email,
 		Role:  user.Role,
+	}
+}
+
+// format response question
+func QuestionFormating(question question.Question) questionFormat {
+	return questionFormat{
+		ID:       question.ID,
+		Number:   question.NumberQuestion,
+		Question: question.Question,
 	}
 }
