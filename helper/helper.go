@@ -6,6 +6,7 @@ import (
 
 	"github.com/go-playground/validator"
 	"github.com/joho/godotenv"
+	"github.com/labstack/echo/v4"
 	"github.com/rezairfanwijaya/go-exam-api.git/question"
 	"github.com/rezairfanwijaya/go-exam-api.git/user"
 )
@@ -102,4 +103,9 @@ func QuestionFormating(question question.Question) questionFormat {
 		ID:       question.ID,
 		Question: question.Question,
 	}
+}
+
+func AuthRole(c echo.Context) string {
+	currentUser := c.Get("currentUser").(user.User)
+	return currentUser.Role
 }
