@@ -31,6 +31,7 @@ type userFormatingLogin struct {
 type userFormatingBytoken struct {
 	ID    int    `json:"id"`
 	Email string `json:"email"`
+	Role  string `json:"role"`
 }
 
 // function get env value
@@ -85,5 +86,6 @@ func UserFormatingByJWT(user user.User) userFormatingBytoken {
 	return userFormatingBytoken{
 		ID:    user.ID,
 		Email: user.Email,
+		Role:  user.Role,
 	}
 }
