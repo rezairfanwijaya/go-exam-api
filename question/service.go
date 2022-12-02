@@ -12,11 +12,11 @@ type IQuestionService interface {
 }
 
 type QuestionService struct {
-	repoQuestion IQuestionRepository
+	RepoQuestion IQuestionRepository
 }
 
-func NewService(repoQuestion IQuestionRepository) *QuestionService {
-	return &QuestionService{repoQuestion}
+func NewService(RepoQuestion IQuestionRepository) *QuestionService {
+	return &QuestionService{RepoQuestion}
 }
 
 // implementasi
@@ -27,7 +27,7 @@ func (s *QuestionService) GetByID(id int) (Question, error) {
 	}
 
 	// panggil repository
-	question, _ := s.repoQuestion.FindByID(id)
+	question, _ := s.RepoQuestion.FindByID(id)
 
 	if question.ID == 0 {
 		errMsg := fmt.Sprintf("question dengan id %v tidak ditemukan", id)
@@ -44,7 +44,7 @@ func (s *QuestionService) Save(input QuestionCreateInput) (Question, error) {
 	}
 
 	// panggil repo
-	questionCreatred, _ := s.repoQuestion.Save(question)
+	questionCreatred, _ := s.RepoQuestion.Save(question)
 
 	return questionCreatred, nil
 }
