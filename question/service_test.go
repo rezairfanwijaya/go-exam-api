@@ -35,10 +35,44 @@ func (m *MockIQuestionRepository) DeleteByID(id int) error {
 	return args.Error(0)
 }
 
+func (m *MockIQuestionRepository) FindAll() ([]q.Question, error) {
+	args := m.Called()
+	return args.Get(0).([]q.Question), args.Error(1)
+}
+
 func TestNewService(t *testing.T) {
 	mock := new(MockIQuestionRepository)
 	service := q.NewService(mock)
 	assert.NotNil(t, service)
+}
+
+func TestGetAll(t *testing.T) {
+	testCases := struct {
+		Name        string
+		Expectation []q.Question
+	}{
+		Name: "success",
+		Expectation: []q.Question{
+			{
+				ID:       1,
+				Question: "berapa 1+1 ? ",
+			}, {
+				ID:       2,
+				Question: "berapa 1+1 ? ",
+			}, {
+				ID:       3,
+				Question: "berapa 1+1 ? ",
+			},
+		},
+	}
+
+	mock := new(MockIQuestionRepository)
+	questionService := q.QuestionService{RepoQuestion: mock}
+
+	mock.On("FindAll").Return(testCases.Expectation, nil)
+
+	actual := questionService.GetAll()
+	assert.NotNil(t, actual)
 }
 
 func TestSave(t *testing.T) {
