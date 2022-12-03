@@ -1,5 +1,6 @@
 
 # Golang Exam RestApi App
+Simple rest api to create questions and answer questions
 
 ### Table of Content
 1. [ Description. ](#desc)
