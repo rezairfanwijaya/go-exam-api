@@ -515,3 +515,132 @@ Response Unauthorized (only student can save answers)
 }
 ```
 ```students can only answer 1 question with 1 answer, not multiple on the same question```
+
+#### Get Answer By UserID
+
+```http
+  GET localhost/v1/answer
+```
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses mengambil jawaban"
+    },
+    "data": [
+        {
+            "id": 1,
+            "answer": "Golang",
+            "question_id": 5,
+            "user_id": 1
+        },
+        {
+            "id": 2,
+            "answer": "Ruby",
+            "question_id": 2,
+            "user_id": 1
+        }
+    ]
+}
+```
+
+
+Response Unauthorized
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "akses ditolak, hanya siswa yang diperbolehkan"
+}
+```
+
+
+#### Get All Answer
+
+```http
+  GET localhost/v1/answers
+```
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses mengambil semua jawaban"
+    },
+    "data": [
+        {
+            "id": 4,
+            "answer": "Golang",
+            "question_id": 2,
+            "user_id": 2
+        },
+        {
+            "id": 5,
+            "answer": "Javascript",
+            "question_id": 3,
+            "user_id": 2
+        },
+        {
+            "id": 6,
+            "answer": "Ruby",
+            "question_id": 1,
+            "user_id": 2
+        },
+        {
+            "id": 7,
+            "answer": "Python",
+            "question_id": 4,
+            "user_id": 2
+        },
+        {
+            "id": 8,
+            "answer": "ReactJS",
+            "question_id": 5,
+            "user_id": 1
+        },
+        {
+            "id": 9,
+            "answer": "GIN",
+            "question_id": 2,
+            "user_id": 1
+        }
+    ]
+}
+```
+
+
+Response Unauthorized (only teacher can get all answers from student)
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "akses ditolak, hanya guru yang diperbolehkan"
+}
+```
