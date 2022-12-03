@@ -7,6 +7,7 @@ import (
 	"github.com/go-playground/validator"
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
+	"github.com/rezairfanwijaya/go-exam-api.git/answer"
 	"github.com/rezairfanwijaya/go-exam-api.git/handler"
 	"github.com/rezairfanwijaya/go-exam-api.git/helper"
 	"github.com/rezairfanwijaya/go-exam-api.git/middleware"
@@ -46,16 +47,27 @@ func NewRoute(e *echo.Echo, db *gorm.DB) {
 	// question handler
 	handlerQuestion := handler.NewHandlerQuestion(serviceQuestion, serviceAuth, serviceUser)
 
+	// answer repo
+	repoAnswer := answer.NewRepository(db)
+	// answer service
+	serviceAnswer := answer.NewService(repoAnswer)
+	// answer handler
+	handlerAnswer := handler.NewHanlderAnswer(serviceAnswer, serviceAuth)
+
 	// endpoint
 	e.POST("/login", handlerUser.Login)
 
 	v1 := e.Group("/v1")
 	v1.GET("/user/info", handlerUser.GetUserByTokenJWT, authMiddleware(serviceAuth, serviceUser))
+
 	v1.GET("/questions", handlerQuestion.GetAllQuestion, authMiddleware(serviceAuth, serviceUser))
 	v1.GET("/question/:id", handlerQuestion.GetQuestionById, authMiddleware(serviceAuth, serviceUser))
 	v1.POST("/question", handlerQuestion.CreateQuestion, authMiddleware(serviceAuth, serviceUser))
 	v1.PUT("/question/:id", handlerQuestion.UpdateQuestion, authMiddleware(serviceAuth, serviceUser))
 	v1.DELETE("/question/:id", handlerQuestion.DeleteQuestion, authMiddleware(serviceAuth, serviceUser))
+
+	v1.POST("/answer", handlerAnswer.Save, authMiddleware(serviceAuth, serviceUser))
+
 }
 func authMiddleware(authService middleware.IAuthService, userService user.IUserService) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
