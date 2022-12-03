@@ -117,7 +117,7 @@ func QuestionsFormating(questions []question.Question) []questionFormat {
 	return questionsFormated
 }
 
-func AuthRole(c echo.Context) string {
+func AuthRole(c echo.Context) (role string, id int) {
 	currentUser := c.Get("currentUser").(user.User)
-	return currentUser.Role
+	return currentUser.Role, currentUser.ID
 }
