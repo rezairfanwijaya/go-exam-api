@@ -150,6 +150,60 @@ Response Failed
     "data": "signature is invalid"
 }
 ```
+#### Get All Question
+
+```http
+  GET localhost/v1/questions
+```
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses mengambil question"
+    },
+    "data": [
+        {
+            "id": 1,
+            "question": "1 + 1 ?"
+        },
+        {
+            "id": 2,
+            "question": "1 + 1 ?"
+        },
+        {
+            "id": 3,
+            "question": "1 + 1 ?"
+        },
+        {
+            "id": 4,
+            "question": "1 + 1 ?"
+        }
+    ]
+}
+```
+
+Response Unauthorized
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "Masukan string Bearer sebelum token"
+}
+```
 
 #### Get Question By ID
 
