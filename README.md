@@ -73,7 +73,7 @@ result
 #### Login
 
 ```http
-  POST localhost/login
+  POST localhost:9090/login
 ```
 
 | Body | Type     | Description                | Required | 
@@ -113,7 +113,7 @@ Response Failed
 #### Get User By JWT Token
 
 ```http
-  GET localhost/v1/user/info
+  GET localhost:9090/v1/user/info
 ```
 
 | Header | Type     | Description                       |  Required | 
@@ -153,7 +153,7 @@ Response Failed
 #### Get All Question
 
 ```http
-  GET localhost/v1/questions
+  GET localhost:9090/v1/questions
 ```
 
 | Header | Type     | Description                       |  Required | 
@@ -208,7 +208,7 @@ Response Unauthorized
 #### Get Question By ID
 
 ```http
-  GET localhost/v1/question/:id
+  GET localhost:9090/v1/question/:id
 ```
 
 | Param | Type     | Description                       |  Required | 
@@ -265,7 +265,7 @@ Response Unauthorized
 #### Create New Question
 
 ```http
-  POST localhost/v1/question
+  POST localhost:9090/v1/question
 ```
 
 | Payload | Type     | Description                       |  Required | 
@@ -323,7 +323,7 @@ Response Unauthorized (only teacher can create question)
 #### Update Question
 
 ```http
-  PUT localhost/v1/question/:id
+  PUT localhost:9090/v1/question/:id
 ```
 
 | Payload | Type     | Description                       |  Required | 
@@ -384,7 +384,7 @@ Response Unauthorized (only teacher can update question)
 #### Delete Question
 
 ```http
-  DELETE localhost/v1/question/:id
+  DELETE localhost:9090/v1/question/:id
 ```
 
 | Param | Type     | Description                       |  Required | 
@@ -439,7 +439,7 @@ Response Unauthorized (only teacher can delete question)
 #### Save Answer
 
 ```http
-  POST localhost/v1/answer
+  POST localhost:9090/v1/answer
 ```
 
 | Payload | Type     | Description                       |  Required | 
@@ -519,7 +519,7 @@ Response Unauthorized (only student can save answers)
 #### Get Answer By UserID
 
 ```http
-  GET localhost/v1/answer
+  GET localhost:9090/v1/answer
 ```
 
 | Header | Type     | Description                       |  Required | 
@@ -572,7 +572,7 @@ Response Unauthorized
 #### Get All Answer
 
 ```http
-  GET localhost/v1/answers
+  GET localhost:9090/v1/answers
 ```
 
 | Header | Type     | Description                       |  Required | 
