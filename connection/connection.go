@@ -3,6 +3,7 @@ package connection
 import (
 	"fmt"
 
+	"github.com/rezairfanwijaya/go-exam-api.git/answer"
 	"github.com/rezairfanwijaya/go-exam-api.git/helper"
 	"github.com/rezairfanwijaya/go-exam-api.git/question"
 	"github.com/rezairfanwijaya/go-exam-api.git/user"
@@ -31,6 +32,6 @@ func DB(path string) (*gorm.DB, error) {
 		return db, err
 	}
 
-	db.AutoMigrate(&user.User{}, &question.Question{})
+	db.AutoMigrate(&user.User{}, &question.Question{}, &answer.Answer{})
 	return db, nil
 }
