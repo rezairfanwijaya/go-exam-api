@@ -516,7 +516,7 @@ Response Unauthorized (only student can save answers)
 ```
 ```students can only answer 1 question with 1 answer, not multiple on the same question```
 
-#### Get Answer By UserID
+#### Get Answer By Student ID
 
 ```http
   GET localhost:9090/v1/answer
