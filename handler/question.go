@@ -46,7 +46,7 @@ func (h *QuestionHandler) CreateQuestion(c echo.Context) error {
 	// cek akun
 	// yang boleh membuat soal hanya guru
 	// ambil user yang sedang login
-	role := helper.AuthRole(c)
+	role, _ := helper.AuthRole(c)
 
 	// cek apakah gutu atau bukan
 	if role != GURU {
@@ -157,7 +157,7 @@ func (h *QuestionHandler) GetQuestionById(c echo.Context) error {
 
 func (h *QuestionHandler) UpdateQuestion(c echo.Context) error {
 	// cek role, harus guru
-	role := helper.AuthRole(c)
+	role, _ := helper.AuthRole(c)
 
 	// cek apakah gutu atau bukan
 	if role != GURU {
@@ -239,7 +239,7 @@ func (h *QuestionHandler) UpdateQuestion(c echo.Context) error {
 
 func (h *QuestionHandler) DeleteQuestion(c echo.Context) error {
 	// cek role, harus guru
-	role := helper.AuthRole(c)
+	role, _ := helper.AuthRole(c)
 
 	// cek apakah gutu atau bukan
 	if role != GURU {
