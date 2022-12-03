@@ -8,6 +8,7 @@ import (
 type IAnswerService interface {
 	Save(inputs Answers, userID int) error
 	GetByUserID(userID int) ([]Answer, error)
+	GetAllAnswers() []Answer
 }
 
 type AnswerService struct {
@@ -48,4 +49,9 @@ func (s *AnswerService) Save(inputs Answers, userID int) error {
 func (s *AnswerService) GetByUserID(userID int) ([]Answer, error) {
 	answers, _ := s.answerRepo.FindByUserID(userID)
 	return answers, nil
+}
+
+func (s *AnswerService) GetAllAnswers() []Answer {
+	answers, _ := s.answerRepo.FindAll()
+	return answers
 }
