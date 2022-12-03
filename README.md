@@ -434,3 +434,83 @@ Response Unauthorized (only teacher can delete question)
 }
 ```
 ```only can delete one question in one request```
+
+
+#### Save Answer
+
+```http
+  POST localhost/v1/answer
+```
+
+| Payload | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `answers`      | `[]Answer` | Answers | **Required**
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Payload Exampole
+```bash
+{
+   "answers" : [
+       {
+           "question_id" : 1,
+           "answer" : "Indonesia"
+       },
+       {
+           "question_id" : 2,
+           "answer" : "Golang"
+       }
+   ]
+}
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses menyimpan jawaban"
+    },
+    "data": "sukses"
+}
+```
+Response Failed
+```bash
+{
+    "meta": {
+        "status": "gagal",
+        "code": 400,
+        "message": "gagal submit jawaban"
+    },
+    "data": "question dengan id 1 sudah dijawab"
+}
+```
+```bash
+{
+    "meta": {
+        "status": "gagal",
+        "code": 400,
+        "message": "gagal submit jawaban"
+    },
+    "data": "question dengan id 90 tidak ditemukan"
+}
+```
+
+Response Unauthorized (only student can save answers)
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "akses ditolak"
+}
+```
