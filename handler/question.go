@@ -28,6 +28,20 @@ func NewHandlerQuestion(serviceQuestion question.IQuestionService,
 }
 
 // implementasi
+func (h *QuestionHandler) GetAllQuestion(c echo.Context) error {
+	questions := h.serviceQuestion.GetAll()
+
+	questionsFormatted := helper.QuestionsFormating(questions)
+	response := helper.ResponseAPI(
+		"sukses",
+		"sukses mengambil question",
+		http.StatusOK,
+		questionsFormatted,
+	)
+
+	return c.JSON(http.StatusOK, response)
+}
+
 func (h *QuestionHandler) CreateQuestion(c echo.Context) error {
 	// cek akun
 	// yang boleh membuat soal hanya guru

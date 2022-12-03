@@ -51,6 +51,7 @@ func NewRoute(e *echo.Echo, db *gorm.DB) {
 
 	v1 := e.Group("/v1")
 	v1.GET("/user/info", handlerUser.GetUserByTokenJWT, authMiddleware(serviceAuth, serviceUser))
+	v1.GET("/questions", handlerQuestion.GetAllQuestion, authMiddleware(serviceAuth, serviceUser))
 	v1.GET("/question/:id", handlerQuestion.GetQuestionById, authMiddleware(serviceAuth, serviceUser))
 	v1.POST("/question", handlerQuestion.CreateQuestion, authMiddleware(serviceAuth, serviceUser))
 	v1.PUT("/question/:id", handlerQuestion.UpdateQuestion, authMiddleware(serviceAuth, serviceUser))

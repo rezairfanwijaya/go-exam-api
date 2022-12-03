@@ -105,6 +105,18 @@ func QuestionFormating(question question.Question) questionFormat {
 	}
 }
 
+// format response questions
+func QuestionsFormating(questions []question.Question) []questionFormat {
+	var questionsFormated []questionFormat
+
+	for _, question := range questions {
+		questionFormated := QuestionFormating(question)
+		questionsFormated = append(questionsFormated, questionFormated)
+	}
+
+	return questionsFormated
+}
+
 func AuthRole(c echo.Context) string {
 	currentUser := c.Get("currentUser").(user.User)
 	return currentUser.Role

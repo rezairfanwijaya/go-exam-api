@@ -4,6 +4,7 @@ import "gorm.io/gorm"
 
 // interface
 type IQuestionRepository interface {
+	FindAll() ([]Question, error)
 	Save(question Question) (Question, error)
 	FindByID(id int) (Question, error)
 	Update(question Question) (Question, error)
@@ -19,6 +20,16 @@ func NewRepository(db *gorm.DB) *QuestionRepository {
 }
 
 // implementasi
+func (r *QuestionRepository) FindAll() ([]Question, error) {
+	var questions []Question
+
+	if err := r.db.Find(&questions).Error; err != nil {
+		return questions, err
+	}
+
+	return questions, nil
+}
+
 func (r *QuestionRepository) FindByID(id int) (Question, error) {
 	var question Question
 

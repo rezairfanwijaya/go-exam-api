@@ -7,6 +7,7 @@ import (
 
 // interface
 type IQuestionService interface {
+	GetAll() []Question
 	Save(input QuestionCreateInput) (Question, error)
 	UpdateByID(input QuestionCreateInput, id int) (Question, error)
 	GetByID(id int) (Question, error)
@@ -22,6 +23,12 @@ func NewService(RepoQuestion IQuestionRepository) *QuestionService {
 }
 
 // implementasi
+func (s *QuestionService) GetAll() []Question {
+	questions, _ := s.RepoQuestion.FindAll()
+
+	return questions
+}
+
 func (s *QuestionService) GetByID(id int) (Question, error) {
 	// id harus lebih dari sama dengan 1
 	if id <= 0 {
