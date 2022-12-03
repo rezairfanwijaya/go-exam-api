@@ -2,21 +2,6 @@
 # Golang Exam RestApi App
 Simple rest api to create questions and answer questions
 
-### Table of Content
-1. [ Description. ](#desc)
-2. [ Usage tips. ](#usage)
-
-<a name="desc"></a>
-## 1. Description
-
-sometext
-
-<a name="usage"></a>
-## 2. Usage tips
-
-sometext
-
-
 ## Run Locally
 
 Clone the project
@@ -71,7 +56,7 @@ result
 ![image](https://user-images.githubusercontent.com/87264553/204498884-7580de99-776b-4748-b2c8-01d151c17ebc.png)
 
 
-
+<a name="userData"></a>
 ## User Data
 
 | email | password     | role               |
