@@ -52,7 +52,7 @@ func NewRoute(e *echo.Echo, db *gorm.DB) {
 	// answer service
 	serviceAnswer := answer.NewService(repoAnswer)
 	// answer handler
-	handlerAnswer := handler.NewHanlderAnswer(serviceAnswer, serviceAuth)
+	handlerAnswer := handler.NewHanlderAnswer(serviceAnswer, serviceAuth, serviceQuestion)
 
 	// endpoint
 	e.POST("/login", handlerUser.Login)
