@@ -687,3 +687,4 @@ Response Unauthorized (only student can delete their answer)
     "data": "akses ditolak, hanya siswa yang diperbolehkan"
 }
 ```
+```only can delete one answer in one request```
