@@ -587,7 +587,7 @@ Response Unauthorized
 ```
 
 
-#### Get All Answer
+#### Get All Answer (only teacher)
 
 ```http
   GET localhost:9090/v1/answers
