@@ -644,3 +644,46 @@ Response Unauthorized (only teacher can get all answers from student)
     "data": "akses ditolak, hanya guru yang diperbolehkan"
 }
 ```
+
+#### Delete Answer By Question ID
+
+```http
+  DELETE localhost:9090/v1/answer/:id
+```
+
+| Param | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `id`      | `integer` | Question ID | **Required**
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses menghapus jawaban"
+    },
+    "data": "sukses menghapus jawaban"
+}
+```
+
+
+Response Unauthorized (only student can delete their answer)
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "akses ditolak, hanya siswa yang diperbolehkan"
+}
+```
