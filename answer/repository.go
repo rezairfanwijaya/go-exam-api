@@ -7,6 +7,7 @@ type IAnswerRepository interface {
 	FindByUserID(userID int) ([]Answer, error)
 	FindAll() ([]Answer, error)
 	FindByUserIDAndQuestionID(questionID, userID int) (Answer, error)
+	Update(answer Answer) (Answer, error)
 	DeleteByQuestionID(questionID, userID int) (Answer, error)
 }
 
@@ -56,6 +57,15 @@ func (r *AnswerRepository) FindByUserIDAndQuestionID(questionID, userID int) (An
 
 	return answer, nil
 }
+
+func (r *AnswerRepository) Update(answer Answer) (Answer, error) {
+	if err := r.db.Save(&answer).Error; err != nil {
+		return answer, err
+	}
+
+	return answer, nil
+}
+
 
 func (r *AnswerRepository) DeleteByQuestionID(questionID, userID int) (Answer, error) {
 	var answer Answer
