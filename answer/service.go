@@ -9,6 +9,7 @@ type IAnswerService interface {
 	Save(inputs Answers, userID int) error
 	GetByUserID(userID int) ([]Answer, error)
 	GetAllAnswers() []Answer
+	Update(inputs Answers, userID int) error
 	DeleteAnswerByQuestionID(questionID, userID int) error
 }
 
@@ -57,6 +58,27 @@ func (s *AnswerService) GetAllAnswers() []Answer {
 	return answers
 }
 
+func (s *AnswerService) Update(inputs Answers, userID int) error {
+	for _, input := range inputs.Answers {
+		// cek apakah ada jawaban dengan id yang dimaksud
+		answerByQuestionID, _ := s.answerRepo.FindByUserIDAndQuestionID(input.QuestionID, userID)
+		if answerByQuestionID.ID == 0 {
+			errMsg := fmt.Sprintf("anda belum menjawab pertanyaan dengan id %v", input.QuestionID)
+			return errors.New(errMsg)
+		}
+
+		answerByQuestionID.QuestionID = input.QuestionID
+		answerByQuestionID.Answer = input.Answer
+		answerByQuestionID.UserID = userID
+
+		go func(answerByQuestionID Answer) {
+			s.answerRepo.Update(answerByQuestionID)
+		}(answerByQuestionID)
+	}
+
+	return nil
+}
+
 func (s *AnswerService) DeleteAnswerByQuestionID(questionID, userID int) error {
 	// question id tidak boleh < 1
 	if questionID < 1 {
@@ -74,3 +96,4 @@ func (s *AnswerService) DeleteAnswerByQuestionID(questionID, userID int) error {
 	s.answerRepo.DeleteByQuestionID(questionID, userID)
 	return nil
 }
+
