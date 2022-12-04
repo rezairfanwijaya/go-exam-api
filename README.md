@@ -454,7 +454,7 @@ Response Unauthorized (only teacher can delete question)
     Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
 ```
 
-Payload Exampole
+Payload Example
 ```bash
 {
    "answers" : [
@@ -663,7 +663,7 @@ Response Unauthorized (only teacher can get all answers from student)
     Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
 ```
 
-Payload Exampole
+Payload Example
 ```bash
 {
    "answers" : [
