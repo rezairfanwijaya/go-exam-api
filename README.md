@@ -353,6 +353,13 @@ Response Unauthorized
     Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
 ```
 
+Payload Example
+```bash
+{
+    "question" : "berapakah kaki macan"
+}
+```
+
 Response Success
 ```bash
 {
