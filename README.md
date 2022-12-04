@@ -38,7 +38,9 @@ Run migration table
 result
 
 
-![image](https://user-images.githubusercontent.com/87264553/204498813-ad29cd5c-c293-4e3a-b8b0-176ea0b8aa4f.png)
+
+![image](https://user-images.githubusercontent.com/87264553/205476893-de3c6187-6d6f-4a60-86c5-dc8acd499f72.png)
+
 
 
 #### after that 
