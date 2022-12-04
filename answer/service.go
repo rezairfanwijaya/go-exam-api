@@ -9,6 +9,7 @@ type IAnswerService interface {
 	Save(inputs Answers, userID int) error
 	GetByUserID(userID int) ([]Answer, error)
 	GetAllAnswers() []Answer
+	DeleteAnswerByQuestionID(questionID, userID int) error
 }
 
 type AnswerService struct {
@@ -54,4 +55,22 @@ func (s *AnswerService) GetByUserID(userID int) ([]Answer, error) {
 func (s *AnswerService) GetAllAnswers() []Answer {
 	answers, _ := s.answerRepo.FindAll()
 	return answers
+}
+
+func (s *AnswerService) DeleteAnswerByQuestionID(questionID, userID int) error {
+	// question id tidak boleh < 1
+	if questionID < 1 {
+		return errors.New("question id harus lebih sama dengan 1")
+	}
+
+	// cek aoakah jawaban sudah ada
+	answer, _ := s.answerRepo.FindByUserIDAndQuestionID(questionID, userID)
+	if answer.ID == 0 {
+		errMsg := fmt.Sprintf("anda belum menjawab pertanyaan dengan id %v", questionID)
+		return errors.New(errMsg)
+	}
+
+	// delete
+	s.answerRepo.DeleteByQuestionID(questionID, userID)
+	return nil
 }
