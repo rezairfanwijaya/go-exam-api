@@ -331,7 +331,7 @@ Response Unauthorized
 }
 ```
 
-#### Update Question
+#### Update Question (only teacher)
 
 ```http
   PUT localhost:9090/v1/question/:id
