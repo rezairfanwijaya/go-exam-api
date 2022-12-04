@@ -189,7 +189,7 @@ Response Success
     },
     "data": {
         "id": 1,
-        "question": "Diamanakah ibu kota negara Brazil"
+        "question" : "berapakah kaki kucing"
     }
 }
 ```
