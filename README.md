@@ -399,7 +399,7 @@ Response Unauthorized (only teacher can update question)
 ```
 ```only can update one question in one request```
 
-#### Delete Question
+#### Delete Question (only teacher)
 
 ```http
   DELETE localhost:9090/v1/question/:id
