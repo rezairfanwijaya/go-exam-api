@@ -3,6 +3,7 @@ package handler
 import (
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 	"github.com/rezairfanwijaya/go-exam-api.git/answer"
@@ -173,4 +174,54 @@ func (h *AnswerHandler) GetAllAnswer(c echo.Context) error {
 	)
 
 	return c.JSON(http.StatusOK, response)
+}
+
+func (h *AnswerHandler) DeleteByQuestionID(c echo.Context) error {
+	// hanya siswa yang dapat mendelete jawabannya sendiri
+	role, userID := helper.AuthRole(c)
+	if role != SISWA {
+		response := helper.ResponseAPI(
+			"Unauthorized",
+			"error",
+			http.StatusUnauthorized,
+			"akses ditolak, hanya siswa yang diperbolehkan",
+		)
+
+		return c.JSON(http.StatusUnauthorized, response)
+	}
+
+	// ambil id question dari path param
+	paramID := c.Param("id")
+	questionID, err := strconv.Atoi(paramID)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal melakukan konversi id",
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusInternalServerError, response)
+	}
+
+	err = h.answerService.DeleteAnswerByQuestionID(questionID, userID)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal menghapus jawaban",
+			http.StatusBadRequest,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusBadRequest, response)
+	}
+
+	response := helper.ResponseAPI(
+		"sukses",
+		"sukses menghapus jawaban",
+		http.StatusOK,
+		"sukses menghapus jawaban",
+	)
+
+	return c.JSON(http.StatusBadRequest, response)
 }
