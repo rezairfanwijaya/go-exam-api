@@ -176,6 +176,67 @@ func (h *AnswerHandler) GetAllAnswer(c echo.Context) error {
 	return c.JSON(http.StatusOK, response)
 }
 
+func (h *AnswerHandler) Update(c echo.Context) error {
+	// hanya siswa yang dapat mengupdate jawabannya sendiri
+	role, userID := helper.AuthRole(c)
+	if role != SISWA {
+		response := helper.ResponseAPI(
+			"Unauthorized",
+			"error",
+			http.StatusUnauthorized,
+			"akses ditolak, hanya siswa yang diperbolehkan",
+		)
+
+		return c.JSON(http.StatusUnauthorized, response)
+	}
+
+	var input answer.Answers
+	// binding
+	if err := c.Bind(&input); err != nil {
+		response := helper.ResponseAPI(
+			"gagal binding",
+			"gagal melakukan binding",
+			http.StatusInternalServerError,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusInternalServerError, response)
+	}
+
+	if err := c.Validate(&input); err != nil {
+		myErr := helper.FormatErrorValidate(err)
+		response := helper.ResponseAPI(
+			"gagal validasi",
+			"gagal melakukan validasi",
+			http.StatusBadRequest,
+			myErr,
+		)
+
+		return c.JSON(http.StatusBadRequest, response)
+	}
+
+	err := h.answerService.Update(input, userID)
+	if err != nil {
+		response := helper.ResponseAPI(
+			"gagal",
+			"gagal mengupate jawaban",
+			http.StatusBadRequest,
+			err.Error(),
+		)
+
+		return c.JSON(http.StatusBadRequest, response)
+	}
+
+	response := helper.ResponseAPI(
+		"sukses",
+		"sukses mengupdate jawaban",
+		http.StatusOK,
+		"sukses mengupdate jawaban",
+	)
+
+	return c.JSON(http.StatusOK, response)
+}
+
 func (h *AnswerHandler) DeleteByQuestionID(c echo.Context) error {
 	// hanya siswa yang dapat mendelete jawabannya sendiri
 	role, userID := helper.AuthRole(c)
@@ -223,5 +284,5 @@ func (h *AnswerHandler) DeleteByQuestionID(c echo.Context) error {
 		"sukses menghapus jawaban",
 	)
 
-	return c.JSON(http.StatusBadRequest, response)
+	return c.JSON(http.StatusOK, response)
 }
