@@ -645,6 +645,74 @@ Response Unauthorized (only teacher can get all answers from student)
 }
 ```
 
+#### Update Question
+
+```http
+  PUT localhost:9090/v1/answer
+```
+
+| Payload | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `answers`      | `[]Answer` | Answers | **Required**
+
+| Header | Type     | Description                       |  Required | 
+| :-------- | :------- | :-------------------------------- | :-------------------------------- |
+| `Authorization`      | `string` | Set yuor header with value token when you get on login | **Required**
+
+```bash
+    Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNpc3dha2VkdWFAZ21haWwuY29tIiwiZXhwaXJlZCI6MTY2OTk1MTQ1NiwidXNlcklEIjoyfQ.2DJa8GBpxWrYcgVUwoha6rNQmGZGHc7zv9njxPxdDbQ
+```
+
+Payload Exampole
+```bash
+{
+   "answers" : [
+       {
+           "question_id" : 1,
+           "answer" : "Ruby on Rails"
+       },
+       {
+           "question_id" : 2,
+           "answer" : "Golang"
+       }
+   ]
+}
+```
+Response Success
+```bash
+{
+    "meta": {
+        "status": "sukses",
+        "code": 200,
+        "message": "sukses mengupdate jawaban"
+    },
+    "data": "sukses mengupdate jawaban"
+}
+```
+Response Failed
+```bash
+{
+    "meta": {
+        "status": "gagal",
+        "code": 400,
+        "message": "gagal mengupate jawaban"
+    },
+    "data": "anda belum menjawab pertanyaan dengan id 4"
+}
+```
+
+Response Unauthorized (only student can update answers)
+```bash
+{
+    "meta": {
+        "status": "Unauthorized",
+        "code": 401,
+        "message": "error"
+    },
+    "data": "akses ditolak, hanya siswa yang diperbolehkan"
+}
+```
+
 #### Delete Answer By Question ID
 
 ```http
